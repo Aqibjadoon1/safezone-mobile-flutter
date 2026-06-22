@@ -29,13 +29,15 @@ class AuthorityDashboardScreen extends ConsumerWidget {
       child: FutureBuilder(
         future: Future.wait([repo.stats(), repo.incidents(), repo.alerts()]),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData)
+            return const Center(child: CircularProgressIndicator());
           final stats = snapshot.data![0] as DashboardStats;
           final incidents = snapshot.data![1] as List<Incident>;
           final alerts = snapshot.data![2] as List<SafeZoneAlert>;
           return ListView(
             children: [
-              Text('AUTHORITY COMMAND CENTER', style: Theme.of(context).textTheme.headlineLarge),
+              Text('AUTHORITY COMMAND CENTER',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 16),
               GridView.count(
                 crossAxisCount: MediaQuery.sizeOf(context).width > 700 ? 4 : 2,
@@ -45,18 +47,37 @@ class AuthorityDashboardScreen extends ConsumerWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 1.02,
                 children: [
-                  MetricCard(label: 'Total Incidents', value: '${stats.totalIncidents}', icon: Icons.warning_rounded, color: SafeZoneColors.danger),
-                  MetricCard(label: 'Active Incidents', value: '${stats.activeIncidents}', icon: Icons.radar_rounded, color: SafeZoneColors.cyan),
-                  MetricCard(label: 'Pending FIRs', value: '${stats.firsProcessed + 1}', icon: Icons.description_rounded, color: SafeZoneColors.warning),
-                  MetricCard(label: 'SOS Handled', value: '${stats.sosHandled}', icon: Icons.sos_rounded, color: SafeZoneColors.safe),
+                  MetricCard(
+                      label: 'Total Incidents',
+                      value: '${stats.totalIncidents}',
+                      icon: Icons.warning_rounded,
+                      color: SafeZoneColors.danger),
+                  MetricCard(
+                      label: 'Active Incidents',
+                      value: '${stats.activeIncidents}',
+                      icon: Icons.radar_rounded,
+                      color: SafeZoneColors.cyan),
+                  MetricCard(
+                      label: 'Pending FIRs',
+                      value: '${stats.firsProcessed + 1}',
+                      icon: Icons.description_rounded,
+                      color: SafeZoneColors.warning),
+                  MetricCard(
+                      label: 'SOS Handled',
+                      value: '${stats.sosHandled}',
+                      icon: Icons.sos_rounded,
+                      color: SafeZoneColors.safe),
                 ],
               ),
               const SizedBox(height: 18),
-              Text('Recent Incidents', style: Theme.of(context).textTheme.titleLarge),
+              Text('Recent Incidents',
+                  style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 10),
-              for (final incident in incidents.take(4)) _AuthorityIncidentTile(incident),
+              for (final incident in incidents.take(4))
+                _AuthorityIncidentTile(incident),
               const SizedBox(height: 18),
-              Text('Active Alerts', style: Theme.of(context).textTheme.titleLarge),
+              Text('Active Alerts',
+                  style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 10),
               for (final alert in alerts) _AlertTile(alert),
             ],
@@ -82,11 +103,16 @@ class FieldReportsScreen extends ConsumerWidget {
           final incidents = snapshot.data ?? [];
           return ListView(
             children: [
-              Text('FIELD REPORTS', style: Theme.of(context).textTheme.headlineLarge),
+              Text('FIELD REPORTS',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 12),
-              const TextField(decoration: InputDecoration(prefixIcon: Icon(Icons.search_rounded), labelText: 'Search incident number or title')),
+              const TextField(
+                  decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search_rounded),
+                      labelText: 'Search incident number or title')),
               const SizedBox(height: 16),
-              for (final incident in incidents) _AuthorityIncidentTile(incident, actionable: true),
+              for (final incident in incidents)
+                _AuthorityIncidentTile(incident, actionable: true),
             ],
           );
         },
@@ -111,9 +137,13 @@ class DispatchMapScreen extends ConsumerWidget {
           return ClipRRect(
             borderRadius: BorderRadius.circular(24),
             child: FlutterMap(
-              options: const MapOptions(initialCenter: LatLng(33.6844, 73.0479), initialZoom: 13),
+              options: const MapOptions(
+                  initialCenter: LatLng(33.6844, 73.0479), initialZoom: 13),
               children: [
-                TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', userAgentPackageName: 'com.safezone.mobile'),
+                TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.safezone.mobile'),
                 MarkerLayer(
                   markers: [
                     for (final incident in incidents)
@@ -121,7 +151,10 @@ class DispatchMapScreen extends ConsumerWidget {
                         point: incident.location,
                         width: 48,
                         height: 48,
-                        child: Icon(Icons.emergency_share_rounded, color: StatusPresenter.severity(incident.severity).color, size: 38),
+                        child: Icon(Icons.emergency_share_rounded,
+                            color: StatusPresenter.severity(incident.severity)
+                                .color,
+                            size: 38),
                       ),
                   ],
                 ),
@@ -154,14 +187,24 @@ class _KanbanScreenState extends ConsumerState<KanbanScreen> {
         future: repo.incidents(),
         builder: (context, snapshot) {
           final incidents = snapshot.data ?? [];
-          final board = IncidentStatus.values.map((status) => _KanbanColumnData(status, incidents.where((item) => item.status == status).toList())).toList();
+          final board = IncidentStatus.values
+              .map((status) => _KanbanColumnData(status,
+                  incidents.where((item) => item.status == status).toList()))
+              .toList();
           final content = wide
-              ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [for (final column in board) Expanded(child: _KanbanColumn(data: column, onMove: _move))])
-              : ListView(children: [for (final column in board) _KanbanColumn(data: column, onMove: _move)]);
+              ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  for (final column in board)
+                    Expanded(child: _KanbanColumn(data: column, onMove: _move))
+                ])
+              : ListView(children: [
+                  for (final column in board)
+                    _KanbanColumn(data: column, onMove: _move)
+                ]);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('DRAG RESPONSE WORKFLOW', style: Theme.of(context).textTheme.headlineLarge),
+              Text('DRAG RESPONSE WORKFLOW',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 16),
               Expanded(child: content),
             ],
@@ -176,10 +219,13 @@ class _KanbanScreenState extends ConsumerState<KanbanScreen> {
       await ref.read(repositoryProvider).moveIncident(incident.id, status);
       setState(() {});
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${incident.number} moved to ${StatusPresenter.incident(status).label}.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              '${incident.number} moved to ${StatusPresenter.incident(status).label}.')));
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString().replaceFirst('Bad state: ', ''))));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(error.toString().replaceFirst('Bad state: ', ''))));
     }
   }
 }
@@ -203,24 +249,38 @@ class _KanbanColumn extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 10, bottom: 12),
       child: DragTarget<Incident>(
-        onWillAcceptWithDetails: (details) => ref.read(repositoryProvider).canMoveIncident(details.data.status, data.status),
+        onWillAcceptWithDetails: (details) => ref
+            .read(repositoryProvider)
+            .canMoveIncident(details.data.status, data.status),
         onAcceptWithDetails: (details) => onMove(details.data, data.status),
         builder: (context, candidate, rejected) => GlassCard(
           radius: 18,
-          borderColor: candidate.isEmpty ? presentation.color.withOpacity(.25) : SafeZoneColors.safe,
+          borderColor: candidate.isEmpty
+              ? presentation.color.withOpacity(.25)
+              : SafeZoneColors.safe,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [Expanded(child: Text(presentation.label, style: const TextStyle(fontWeight: FontWeight.w900))), Text('${data.incidents.length}')]),
+              Row(children: [
+                Expanded(
+                    child: Text(presentation.label,
+                        style: const TextStyle(fontWeight: FontWeight.w900))),
+                Text('${data.incidents.length}')
+              ]),
               const SizedBox(height: 12),
               for (final incident in data.incidents)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Draggable<Incident>(
                     data: incident,
-                    feedback: Material(color: Colors.transparent, child: SizedBox(width: 260, child: _KanbanCard(incident))),
-                    childWhenDragging: Opacity(opacity: .35, child: _KanbanCard(incident)),
-                    child: _KanbanCard(incident, onTap: () => _showMoveSheet(context, ref, incident)),
+                    feedback: Material(
+                        color: Colors.transparent,
+                        child:
+                            SizedBox(width: 260, child: _KanbanCard(incident))),
+                    childWhenDragging:
+                        Opacity(opacity: .35, child: _KanbanCard(incident)),
+                    child: _KanbanCard(incident,
+                        onTap: () => _showMoveSheet(context, ref, incident)),
                   ),
                 ),
             ],
@@ -239,10 +299,16 @@ class _KanbanColumn extends ConsumerWidget {
           spacing: 10,
           runSpacing: 10,
           children: [
-            Text('Move ${incident.number}', style: Theme.of(context).textTheme.titleLarge),
+            Text('Move ${incident.number}',
+                style: Theme.of(context).textTheme.titleLarge),
             for (final status in IncidentStatus.values)
-              if (ref.read(repositoryProvider).canMoveIncident(incident.status, status))
-                ActionChip(label: Text(StatusPresenter.incident(status).label), onPressed: () => onMove(incident, status).then((_) => Navigator.pop(context))),
+              if (ref
+                  .read(repositoryProvider)
+                  .canMoveIncident(incident.status, status))
+                ActionChip(
+                    label: Text(StatusPresenter.incident(status).label),
+                    onPressed: () => onMove(incident, status)
+                        .then((_) => Navigator.pop(context))),
           ],
         ),
       ),
@@ -262,13 +328,21 @@ class _KanbanCard extends StatelessWidget {
       onTap: onTap,
       radius: 14,
       padding: const EdgeInsets.all(14),
-      borderColor: StatusPresenter.severity(incident.severity).color.withOpacity(.35),
+      borderColor:
+          StatusPresenter.severity(incident.severity).color.withOpacity(.35),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(incident.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w800)),
+        Text(incident.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.w800)),
         const SizedBox(height: 8),
-        Text(incident.number, style: const TextStyle(color: SafeZoneColors.muted, fontSize: 12)),
+        Text(incident.number,
+            style: const TextStyle(color: SafeZoneColors.muted, fontSize: 12)),
         const SizedBox(height: 8),
-        Wrap(spacing: 6, children: [StatusBadge.severity(severity: incident.severity), Chip(label: Text(incident.category.label))]),
+        Wrap(spacing: 6, children: [
+          StatusBadge.severity(severity: incident.severity),
+          Chip(label: Text(incident.category.label))
+        ]),
       ]),
     );
   }
@@ -289,23 +363,44 @@ class FirManagementScreen extends ConsumerWidget {
           final firs = snapshot.data ?? [];
           return ListView(
             children: [
-              Text('FIR MANAGEMENT', style: Theme.of(context).textTheme.headlineLarge),
+              Text('FIR MANAGEMENT',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 16),
               for (final fir in firs)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: GlassCard(
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Row(children: [Expanded(child: Text(fir.title, style: Theme.of(context).textTheme.titleLarge)), StatusBadge.fir(status: fir.status)]),
-                      const SizedBox(height: 8),
-                      Text('${fir.number} - ${fir.complainant}', style: const TextStyle(color: SafeZoneColors.muted)),
-                      const SizedBox(height: 12),
-                      Wrap(spacing: 8, children: [
-                        ActionChip(label: const Text('Accept'), onPressed: () => _review(context, ref, fir, FirStatus.accepted)),
-                        ActionChip(label: const Text('Reject'), onPressed: () => _review(context, ref, fir, FirStatus.rejected)),
-                        ActionChip(label: const Text('Close'), onPressed: () => _review(context, ref, fir, FirStatus.closed)),
-                      ]),
-                    ]),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            Expanded(
+                                child: Text(fir.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge)),
+                            StatusBadge.fir(status: fir.status)
+                          ]),
+                          const SizedBox(height: 8),
+                          Text('${fir.number} - ${fir.complainant}',
+                              style:
+                                  const TextStyle(color: SafeZoneColors.muted)),
+                          const SizedBox(height: 12),
+                          Wrap(spacing: 8, children: [
+                            ActionChip(
+                                label: const Text('Accept'),
+                                onPressed: () => _review(
+                                    context, ref, fir, FirStatus.accepted)),
+                            ActionChip(
+                                label: const Text('Reject'),
+                                onPressed: () => _review(
+                                    context, ref, fir, FirStatus.rejected)),
+                            ActionChip(
+                                label: const Text('Close'),
+                                onPressed: () => _review(
+                                    context, ref, fir, FirStatus.closed)),
+                          ]),
+                        ]),
                   ),
                 ),
             ],
@@ -315,9 +410,14 @@ class FirManagementScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _review(BuildContext context, WidgetRef ref, FirReport fir, FirStatus status) async {
-    await ref.read(repositoryProvider).reviewFir(fir.id, status, 'Reviewed from SafeZone Mobile.');
-    if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${fir.number} updated.')));
+  Future<void> _review(BuildContext context, WidgetRef ref, FirReport fir,
+      FirStatus status) async {
+    await ref
+        .read(repositoryProvider)
+        .reviewFir(fir.id, status, 'Reviewed from SafeZone Mobile.');
+    if (context.mounted)
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${fir.number} updated.')));
   }
 }
 
@@ -336,18 +436,33 @@ class SosLogsScreen extends ConsumerWidget {
           final logs = snapshot.data ?? [];
           return ListView(
             children: [
-              Text('SOS LOGS', style: Theme.of(context).textTheme.headlineLarge),
+              Text('SOS LOGS',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 16),
               for (final log in logs)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: GlassCard(
-                    borderColor: log.handled ? SafeZoneColors.safe.withOpacity(.3) : SafeZoneColors.danger.withOpacity(.35),
+                    borderColor: log.handled
+                        ? SafeZoneColors.safe.withOpacity(.3)
+                        : SafeZoneColors.danger.withOpacity(.35),
                     child: Row(children: [
-                      Icon(Icons.sos_rounded, color: log.handled ? SafeZoneColors.safe : SafeZoneColors.danger),
+                      Icon(Icons.sos_rounded,
+                          color: log.handled
+                              ? SafeZoneColors.safe
+                              : SafeZoneColors.danger),
                       const SizedBox(width: 12),
-                      Expanded(child: Text('${log.number} - ${log.type.label}\n${log.address}', style: const TextStyle(height: 1.5))),
-                      ActionChip(label: Text(log.handled ? 'Handled' : 'Mark Handled'), onPressed: log.handled ? null : () => ref.read(repositoryProvider).markSosHandled(log.id)),
+                      Expanded(
+                          child: Text(
+                              '${log.number} - ${log.type.label}\n${log.address}',
+                              style: const TextStyle(height: 1.5))),
+                      ActionChip(
+                          label: Text(log.handled ? 'Handled' : 'Mark Handled'),
+                          onPressed: log.handled
+                              ? null
+                              : () => ref
+                                  .read(repositoryProvider)
+                                  .markSosHandled(log.id)),
                     ]),
                   ),
                 ),
@@ -363,7 +478,8 @@ class BroadcastAlertScreen extends ConsumerStatefulWidget {
   const BroadcastAlertScreen({super.key});
 
   @override
-  ConsumerState<BroadcastAlertScreen> createState() => _BroadcastAlertScreenState();
+  ConsumerState<BroadcastAlertScreen> createState() =>
+      _BroadcastAlertScreenState();
 }
 
 class _BroadcastAlertScreenState extends ConsumerState<BroadcastAlertScreen> {
@@ -386,17 +502,35 @@ class _BroadcastAlertScreenState extends ConsumerState<BroadcastAlertScreen> {
       role: UserRole.authority,
       child: ListView(
         children: [
-          Text('BROADCAST ALERT', style: Theme.of(context).textTheme.headlineLarge),
+          Text('BROADCAST ALERT',
+              style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 16),
           GlassCard(
             child: Column(children: [
-              DropdownButtonFormField(value: _type, decoration: const InputDecoration(labelText: 'Alert type'), items: AlertType.values.map((type) => DropdownMenuItem(value: type, child: Text(type.label))).toList(), onChanged: (value) => setState(() => _type = value ?? _type)),
+              DropdownButtonFormField(
+                  value: _type,
+                  decoration: const InputDecoration(labelText: 'Alert type'),
+                  items: AlertType.values
+                      .map((type) => DropdownMenuItem(
+                          value: type, child: Text(type.label)))
+                      .toList(),
+                  onChanged: (value) => setState(() => _type = value ?? _type)),
               const SizedBox(height: 12),
-              TextField(controller: _title, decoration: const InputDecoration(labelText: 'Title')),
+              TextField(
+                  controller: _title,
+                  decoration: const InputDecoration(labelText: 'Title')),
               const SizedBox(height: 12),
-              TextField(controller: _body, minLines: 4, maxLines: 6, decoration: const InputDecoration(labelText: 'Message')),
+              TextField(
+                  controller: _body,
+                  minLines: 4,
+                  maxLines: 6,
+                  decoration: const InputDecoration(labelText: 'Message')),
               const SizedBox(height: 16),
-              CyberButton(label: 'Broadcast', icon: Icons.campaign_rounded, expanded: true, onPressed: _send),
+              CyberButton(
+                  label: 'Broadcast',
+                  icon: Icons.campaign_rounded,
+                  expanded: true,
+                  onPressed: _send),
             ]),
           ),
         ],
@@ -405,9 +539,12 @@ class _BroadcastAlertScreenState extends ConsumerState<BroadcastAlertScreen> {
   }
 
   Future<void> _send() async {
-    await ref.read(repositoryProvider).broadcastAlert(_title.text.trim(), _body.text.trim(), _type);
+    await ref
+        .read(repositoryProvider)
+        .broadcastAlert(_title.text.trim(), _body.text.trim(), _type);
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Alert broadcast queued.')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Alert broadcast queued.')));
   }
 }
 
@@ -426,17 +563,29 @@ class UserManagementScreen extends ConsumerWidget {
           final users = snapshot.data ?? [];
           return ListView(
             children: [
-              Text('USER MANAGEMENT', style: Theme.of(context).textTheme.headlineLarge),
+              Text('USER MANAGEMENT',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 16),
               for (final user in users)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: GlassCard(
                     child: Row(children: [
-                      CircleAvatar(backgroundColor: user.active ? SafeZoneColors.safe : SafeZoneColors.dim, child: const Icon(Icons.person_rounded, color: Colors.black)),
+                      CircleAvatar(
+                          backgroundColor: user.active
+                              ? SafeZoneColors.safe
+                              : SafeZoneColors.dim,
+                          child: const Icon(Icons.person_rounded,
+                              color: Colors.black)),
                       const SizedBox(width: 12),
-                      Expanded(child: Text('${user.displayName}\n${user.email} - ${user.role.label}', style: const TextStyle(height: 1.5))),
-                      Switch(value: user.active, onChanged: (_) => ref.read(repositoryProvider).toggleUser(user.id)),
+                      Expanded(
+                          child: Text(
+                              '${user.displayName}\n${user.email} - ${user.role.label}',
+                              style: const TextStyle(height: 1.5))),
+                      Switch(
+                          value: user.active,
+                          onChanged: (_) =>
+                              ref.read(repositoryProvider).toggleUser(user.id)),
                     ]),
                   ),
                 ),
@@ -460,9 +609,16 @@ class _AuthorityIncidentTile extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: GlassCard(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [Expanded(child: Text(incident.title, style: Theme.of(context).textTheme.titleLarge)), StatusBadge.incident(status: incident.status)]),
+          Row(children: [
+            Expanded(
+                child: Text(incident.title,
+                    style: Theme.of(context).textTheme.titleLarge)),
+            StatusBadge.incident(status: incident.status)
+          ]),
           const SizedBox(height: 8),
-          Text('${incident.number} - ${incident.address} - ${DateFormat('HH:mm').format(incident.reportedAt)}', style: const TextStyle(color: SafeZoneColors.muted)),
+          Text(
+              '${incident.number} - ${incident.address} - ${DateFormat('HH:mm').format(incident.reportedAt)}',
+              style: const TextStyle(color: SafeZoneColors.muted)),
           const SizedBox(height: 12),
           Wrap(spacing: 8, runSpacing: 8, children: [
             StatusBadge.severity(severity: incident.severity),
@@ -478,7 +634,10 @@ class _AuthorityIncidentTile extends ConsumerWidget {
                     IncidentStatus.resolved => IncidentStatus.closed,
                     IncidentStatus.closed => IncidentStatus.closed,
                   };
-                  if (next != incident.status) await ref.read(repositoryProvider).moveIncident(incident.id, next);
+                  if (next != incident.status)
+                    await ref
+                        .read(repositoryProvider)
+                        .moveIncident(incident.id, next);
                 },
               ),
           ]),
@@ -498,14 +657,20 @@ class _AlertTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: GlassCard(
-        borderColor: alert.type == AlertType.emergency ? SafeZoneColors.danger.withOpacity(.4) : SafeZoneColors.cyan.withOpacity(.22),
+        borderColor: alert.type == AlertType.emergency
+            ? SafeZoneColors.danger.withOpacity(.4)
+            : SafeZoneColors.cyan.withOpacity(.22),
         child: Row(children: [
-          Icon(Icons.campaign_rounded, color: alert.type == AlertType.emergency ? SafeZoneColors.danger : SafeZoneColors.cyan),
+          Icon(Icons.campaign_rounded,
+              color: alert.type == AlertType.emergency
+                  ? SafeZoneColors.danger
+                  : SafeZoneColors.cyan),
           const SizedBox(width: 12),
-          Expanded(child: Text('${alert.title}\n${alert.body}', style: const TextStyle(height: 1.5))),
+          Expanded(
+              child: Text('${alert.title}\n${alert.body}',
+                  style: const TextStyle(height: 1.5))),
         ]),
       ),
     );
   }
 }
-

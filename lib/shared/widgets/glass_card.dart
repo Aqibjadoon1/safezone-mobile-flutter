@@ -32,7 +32,8 @@ class GlassCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: SafeZoneColors.panel.withOpacity(.72),
             borderRadius: BorderRadius.circular(radius),
-            border: Border.all(color: borderColor ?? Colors.white.withOpacity(.12)),
+            border:
+                Border.all(color: borderColor ?? Colors.white.withOpacity(.12)),
             boxShadow: [
               BoxShadow(
                 color: (borderColor ?? Colors.black).withOpacity(.14),
@@ -46,7 +47,7 @@ class GlassCard extends StatelessWidget {
       ),
     );
     if (onTap == null) return card;
-    return InkWell(borderRadius: BorderRadius.circular(radius), onTap: onTap, child: card);
+    return InkWell(
+        borderRadius: BorderRadius.circular(radius), onTap: onTap, child: card);
   }
 }
-

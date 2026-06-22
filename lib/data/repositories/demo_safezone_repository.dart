@@ -6,7 +6,8 @@ import '../../core/models/safezone_enums.dart';
 import '../../core/models/safezone_models.dart';
 import 'safezone_repository.dart';
 
-class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepository {
+class DemoSafeZoneRepository extends ChangeNotifier
+    implements SafeZoneRepository {
   DemoSafeZoneRepository() {
     _seed();
   }
@@ -27,10 +28,26 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
     if (_users.isNotEmpty) return;
     final now = DateTime.now();
     _users.addAll([
-      const SafeZoneUser(id: 'u-resident', displayName: 'Aqib Resident', email: 'resident@safezone.local', role: UserRole.resident),
-      const SafeZoneUser(id: 'u-authority', displayName: 'Authority Command', email: 'authority@safezone.local', role: UserRole.authority),
-      const SafeZoneUser(id: 'u-admin', displayName: 'Admin Operator', email: 'admin@safezone.local', role: UserRole.admin),
-      const SafeZoneUser(id: 'u-super', displayName: 'SuperAdmin Control', email: 'superadmin@safezone.local', role: UserRole.superAdmin),
+      const SafeZoneUser(
+          id: 'u-resident',
+          displayName: 'Aqib Resident',
+          email: 'resident@safezone.local',
+          role: UserRole.resident),
+      const SafeZoneUser(
+          id: 'u-authority',
+          displayName: 'Authority Command',
+          email: 'authority@safezone.local',
+          role: UserRole.authority),
+      const SafeZoneUser(
+          id: 'u-admin',
+          displayName: 'Admin Operator',
+          email: 'admin@safezone.local',
+          role: UserRole.admin),
+      const SafeZoneUser(
+          id: 'u-super',
+          displayName: 'SuperAdmin Control',
+          email: 'superadmin@safezone.local',
+          role: UserRole.superAdmin),
     ]);
     _incidents.addAll([
       Incident(
@@ -127,9 +144,14 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   }
 
   @override
-  Future<SafeZoneUser> register(String name, String email, String password) async {
+  Future<SafeZoneUser> register(
+      String name, String email, String password) async {
     await Future<void>.delayed(const Duration(milliseconds: 180));
-    final user = SafeZoneUser(id: _uuid.v4(), displayName: name, email: email, role: UserRole.resident);
+    final user = SafeZoneUser(
+        id: _uuid.v4(),
+        displayName: name,
+        email: email,
+        role: UserRole.resident);
     _users.add(user);
     _currentUser = user;
     notifyListeners();
@@ -148,7 +170,9 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   @override
   Future<List<Incident>> myIncidents() async {
     final id = _currentUser?.id;
-    return _incidents.where((incident) => incident.reporterId == id).toList(growable: false);
+    return _incidents
+        .where((incident) => incident.reporterId == id)
+        .toList(growable: false);
   }
 
   @override
@@ -193,10 +217,14 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   @override
   bool canMoveIncident(IncidentStatus from, IncidentStatus to) {
     return switch (from) {
-      IncidentStatus.pending => to == IncidentStatus.assigned || to == IncidentStatus.inProgress,
-      IncidentStatus.assigned => to == IncidentStatus.inProgress || to == IncidentStatus.pending,
-      IncidentStatus.inProgress => to == IncidentStatus.resolved || to == IncidentStatus.assigned,
-      IncidentStatus.resolved => to == IncidentStatus.closed || to == IncidentStatus.inProgress,
+      IncidentStatus.pending =>
+        to == IncidentStatus.assigned || to == IncidentStatus.inProgress,
+      IncidentStatus.assigned =>
+        to == IncidentStatus.inProgress || to == IncidentStatus.pending,
+      IncidentStatus.inProgress =>
+        to == IncidentStatus.resolved || to == IncidentStatus.assigned,
+      IncidentStatus.resolved =>
+        to == IncidentStatus.closed || to == IncidentStatus.inProgress,
       IncidentStatus.closed => false,
     };
   }
@@ -255,10 +283,12 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   }
 
   @override
-  Future<FirReport> reviewFir(String id, FirStatus status, String remarks) async {
+  Future<FirReport> reviewFir(
+      String id, FirStatus status, String remarks) async {
     final index = _firs.indexWhere((fir) => fir.id == id);
     if (index == -1) throw StateError('FIR not found.');
-    final updated = _firs[index].copyWith(status: status, reviewRemarks: remarks);
+    final updated =
+        _firs[index].copyWith(status: status, reviewRemarks: remarks);
     _firs[index] = updated;
     notifyListeners();
     return updated;
@@ -268,7 +298,8 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   Future<List<SosLog>> sosLogs() async => List.unmodifiable(_sos);
 
   @override
-  Future<SosLog> createSos(EmergencyType type, double latitude, double longitude, String address) async {
+  Future<SosLog> createSos(EmergencyType type, double latitude,
+      double longitude, String address) async {
     final sos = SosLog(
       id: _uuid.v4(),
       number: 'SOS-${9000 + _sos.length + 1}',
@@ -313,19 +344,27 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   Future<List<SafeZoneAlert>> alerts() async => List.unmodifiable(_alerts);
 
   @override
-  Future<SafeZoneAlert> broadcastAlert(String title, String body, AlertType type) async {
-    final alert = SafeZoneAlert(id: _uuid.v4(), title: title, body: body, type: type, createdAt: DateTime.now());
+  Future<SafeZoneAlert> broadcastAlert(
+      String title, String body, AlertType type) async {
+    final alert = SafeZoneAlert(
+        id: _uuid.v4(),
+        title: title,
+        body: body,
+        type: type,
+        createdAt: DateTime.now());
     _alerts.insert(0, alert);
     notifyListeners();
     return alert;
   }
 
   @override
-  Future<List<SafeZoneNotification>> notifications() async => List.unmodifiable(_notifications);
+  Future<List<SafeZoneNotification>> notifications() async =>
+      List.unmodifiable(_notifications);
 
   @override
   Future<void> markNotificationRead(String id) async {
-    final index = _notifications.indexWhere((notification) => notification.id == id);
+    final index =
+        _notifications.indexWhere((notification) => notification.id == id);
     if (index == -1) return;
     _notifications[index] = _notifications[index].copyWith(read: true);
     notifyListeners();
@@ -334,10 +373,18 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
   @override
   Future<DashboardStats> stats() async => DashboardStats(
         totalIncidents: _incidents.length,
-        activeIncidents: _incidents.where((incident) => incident.status != IncidentStatus.closed).length,
-        firsProcessed: _firs.where((fir) => fir.status == FirStatus.accepted || fir.status == FirStatus.closed).length,
+        activeIncidents: _incidents
+            .where((incident) => incident.status != IncidentStatus.closed)
+            .length,
+        firsProcessed: _firs
+            .where((fir) =>
+                fir.status == FirStatus.accepted ||
+                fir.status == FirStatus.closed)
+            .length,
         sosHandled: _sos.where((log) => log.handled).length,
-        activeAuthorities: _users.where((user) => user.role != UserRole.resident && user.active).length,
+        activeAuthorities: _users
+            .where((user) => user.role != UserRole.resident && user.active)
+            .length,
       );
 
   @override
@@ -353,4 +400,3 @@ class DemoSafeZoneRepository extends ChangeNotifier implements SafeZoneRepositor
     return updated;
   }
 }
-

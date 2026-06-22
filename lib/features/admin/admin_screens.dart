@@ -24,13 +24,15 @@ class AdminCommandCenterScreen extends ConsumerWidget {
           ref.watch(repositoryProvider).alerts(),
         ]),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData)
+            return const Center(child: CircularProgressIndicator());
           final stats = snapshot.data![0] as dynamic;
           final users = snapshot.data![1] as List;
           final alerts = snapshot.data![2] as List;
           return ListView(
             children: [
-              Text('SUPERADMIN COMMAND CENTER', style: Theme.of(context).textTheme.headlineLarge),
+              Text('SUPERADMIN COMMAND CENTER',
+                  style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(height: 16),
               GridView.count(
                 crossAxisCount: MediaQuery.sizeOf(context).width > 700 ? 4 : 2,
@@ -40,10 +42,26 @@ class AdminCommandCenterScreen extends ConsumerWidget {
                 mainAxisSpacing: 12,
                 childAspectRatio: 1.02,
                 children: [
-                  MetricCard(label: 'Incidents', value: '${stats.totalIncidents}', icon: Icons.warning_rounded, color: SafeZoneColors.danger),
-                  MetricCard(label: 'Authorities', value: '${stats.activeAuthorities}', icon: Icons.security_rounded, color: SafeZoneColors.safe),
-                  MetricCard(label: 'Users', value: '${users.length}', icon: Icons.group_rounded, color: SafeZoneColors.cyan),
-                  MetricCard(label: 'Alerts', value: '${alerts.length}', icon: Icons.campaign_rounded, color: SafeZoneColors.warning),
+                  MetricCard(
+                      label: 'Incidents',
+                      value: '${stats.totalIncidents}',
+                      icon: Icons.warning_rounded,
+                      color: SafeZoneColors.danger),
+                  MetricCard(
+                      label: 'Authorities',
+                      value: '${stats.activeAuthorities}',
+                      icon: Icons.security_rounded,
+                      color: SafeZoneColors.safe),
+                  MetricCard(
+                      label: 'Users',
+                      value: '${users.length}',
+                      icon: Icons.group_rounded,
+                      color: SafeZoneColors.cyan),
+                  MetricCard(
+                      label: 'Alerts',
+                      value: '${alerts.length}',
+                      icon: Icons.campaign_rounded,
+                      color: SafeZoneColors.warning),
                 ],
               ),
               const SizedBox(height: 18),
@@ -60,4 +78,3 @@ class AdminCommandCenterScreen extends ConsumerWidget {
     );
   }
 }
-

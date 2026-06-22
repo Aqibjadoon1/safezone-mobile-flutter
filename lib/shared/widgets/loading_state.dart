@@ -11,13 +11,16 @@ class LoadingState extends StatefulWidget {
   State<LoadingState> createState() => _LoadingStateState();
 }
 
-class _LoadingStateState extends State<LoadingState> with SingleTickerProviderStateMixin {
+class _LoadingStateState extends State<LoadingState>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200))..repeat();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200))
+      ..repeat();
   }
 
   @override
@@ -34,13 +37,14 @@ class _LoadingStateState extends State<LoadingState> with SingleTickerProviderSt
         children: [
           RotationTransition(
             turns: _controller,
-            child: const Icon(Icons.radar_rounded, color: SafeZoneColors.safe, size: 42),
+            child: const Icon(Icons.radar_rounded,
+                color: SafeZoneColors.safe, size: 42),
           ),
           const SizedBox(height: 14),
-          Text(widget.label, style: const TextStyle(color: SafeZoneColors.muted)),
+          Text(widget.label,
+              style: const TextStyle(color: SafeZoneColors.muted)),
         ],
       ),
     );
   }
 }
-

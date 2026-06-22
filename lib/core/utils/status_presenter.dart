@@ -132,4 +132,3 @@ class StatusPresenter {
         icon: Icons.help_outline_rounded,
       );
 }
-

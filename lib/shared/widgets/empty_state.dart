@@ -24,10 +24,11 @@ class EmptyState extends StatelessWidget {
           const SizedBox(height: 14),
           Text(title, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 6),
-          Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SafeZoneColors.muted)),
+          Text(message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: SafeZoneColors.muted)),
         ],
       ),
     );
   }
 }
-

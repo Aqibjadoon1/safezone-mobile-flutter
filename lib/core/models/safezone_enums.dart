@@ -13,11 +13,17 @@ enum IncidentCategory {
   other,
 }
 
-enum FirStatus { submitted, underReview, accepted, rejected, investigating, closed }
+enum FirStatus {
+  submitted,
+  underReview,
+  accepted,
+  rejected,
+  investigating,
+  closed
+}
 
 enum EmergencyType { police, ambulance, fireBrigade, trafficPolice }
 
 enum AlertType { emergency, warning, info, weatherAlert, curfewNotice }
 
 enum StatusTone { safe, info, warning, danger, muted, command }
-

@@ -25,4 +25,3 @@ class SafeZoneColors {
     colors: [Color(0xFF050507), Color(0xFF10131A), Color(0xFF07080C)],
   );
 }
-

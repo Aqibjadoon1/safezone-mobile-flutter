@@ -38,4 +38,3 @@ extension AlertTypeLabel on AlertType {
         AlertType.curfewNotice => 'Curfew Notice',
       };
 }
-

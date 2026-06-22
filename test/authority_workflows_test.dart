@@ -6,9 +6,11 @@ void main() {
   test('authority can move pending incident to assigned', () async {
     final repo = DemoSafeZoneRepository();
     await repo.login('authority@safezone.local', 'password123');
-    final pending = (await repo.incidents()).firstWhere((item) => item.status == IncidentStatus.pending);
+    final pending = (await repo.incidents())
+        .firstWhere((item) => item.status == IncidentStatus.pending);
 
-    final updated = await repo.moveIncident(pending.id, IncidentStatus.assigned);
+    final updated =
+        await repo.moveIncident(pending.id, IncidentStatus.assigned);
 
     expect(updated.status, IncidentStatus.assigned);
   });
@@ -18,7 +20,8 @@ void main() {
     await repo.login('authority@safezone.local', 'password123');
     final fir = (await repo.firs()).first;
 
-    final updated = await repo.reviewFir(fir.id, FirStatus.accepted, 'Verified by desk officer.');
+    final updated = await repo.reviewFir(
+        fir.id, FirStatus.accepted, 'Verified by desk officer.');
 
     expect(updated.status, FirStatus.accepted);
     expect(updated.reviewRemarks, 'Verified by desk officer.');
@@ -34,4 +37,3 @@ void main() {
     expect(updated.handled, isTrue);
   });
 }
-

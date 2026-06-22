@@ -38,15 +38,16 @@ abstract class SafeZoneRepository {
   Future<FirReport> reviewFir(String id, FirStatus status, String remarks);
 
   Future<List<SosLog>> sosLogs();
-  Future<SosLog> createSos(EmergencyType type, double latitude, double longitude, String address);
+  Future<SosLog> createSos(
+      EmergencyType type, double latitude, double longitude, String address);
   Future<SosLog> markSosHandled(String id);
 
   Future<List<SafeZoneAlert>> alerts();
-  Future<SafeZoneAlert> broadcastAlert(String title, String body, AlertType type);
+  Future<SafeZoneAlert> broadcastAlert(
+      String title, String body, AlertType type);
   Future<List<SafeZoneNotification>> notifications();
   Future<void> markNotificationRead(String id);
   Future<DashboardStats> stats();
   Future<List<SafeZoneUser>> users();
   Future<SafeZoneUser> toggleUser(String id);
 }
-

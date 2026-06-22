@@ -14,7 +14,8 @@ class SessionStore {
   static const _tokenKey = 'safezone.jwt';
   static const _demoModeKey = 'safezone.demoMode';
 
-  Future<void> saveToken(String token) => _secureStorage.write(key: _tokenKey, value: token);
+  Future<void> saveToken(String token) =>
+      _secureStorage.write(key: _tokenKey, value: token);
 
   Future<String?> readToken() => _secureStorage.read(key: _tokenKey);
 
@@ -34,4 +35,3 @@ class SessionStore {
     return _preferences ??= await SharedPreferences.getInstance();
   }
 }
-

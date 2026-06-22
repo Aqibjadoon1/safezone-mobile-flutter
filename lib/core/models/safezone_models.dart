@@ -218,4 +218,3 @@ class DashboardStats {
   final int sosHandled;
   final int activeAuthorities;
 }
-

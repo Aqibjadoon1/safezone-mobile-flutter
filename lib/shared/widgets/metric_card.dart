@@ -30,17 +30,22 @@ class MetricCard extends StatelessWidget {
           const Spacer(),
           Text(
             value,
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 38),
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge
+                ?.copyWith(fontSize: 38),
           ),
           const SizedBox(height: 6),
-          Text(label.toUpperCase(), style: Theme.of(context).textTheme.labelSmall),
+          Text(label.toUpperCase(),
+              style: Theme.of(context).textTheme.labelSmall),
           if (caption != null) ...[
             const SizedBox(height: 8),
-            Text(caption!, style: TextStyle(color: Colors.white.withOpacity(.58), fontSize: 12)),
+            Text(caption!,
+                style: TextStyle(
+                    color: Colors.white.withOpacity(.58), fontSize: 12)),
           ],
         ],
       ),
     );
   }
 }
-

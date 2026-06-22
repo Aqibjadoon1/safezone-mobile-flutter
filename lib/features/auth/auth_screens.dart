@@ -17,13 +17,22 @@ class OnboardingScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.shield_rounded, color: SafeZoneColors.safe, size: 70),
+          const Icon(Icons.shield_rounded,
+              color: SafeZoneColors.safe, size: 70),
           const SizedBox(height: 18),
-          Text('YOUR NEIGHBOURHOOD PROTECTED', textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineLarge),
+          Text('YOUR NEIGHBOURHOOD PROTECTED',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 12),
-          const Text('A mobile command system for incidents, FIRs, SOS alerts, and authority response.', textAlign: TextAlign.center, style: TextStyle(color: SafeZoneColors.muted)),
+          const Text(
+              'A mobile command system for incidents, FIRs, SOS alerts, and authority response.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: SafeZoneColors.muted)),
           const SizedBox(height: 24),
-          CyberButton(label: 'Enter SafeZone', icon: Icons.arrow_forward_rounded, onPressed: () => context.go('/login')),
+          CyberButton(
+              label: 'Enter SafeZone',
+              icon: Icons.arrow_forward_rounded,
+              onPressed: () => context.go('/login')),
         ],
       ),
     );
@@ -61,28 +70,46 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         children: [
           Text('SIGN IN', style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 8),
-          const Text('Demo mode is active. Use any SafeZone demo account.', style: TextStyle(color: SafeZoneColors.muted)),
+          const Text('Demo mode is active. Use any SafeZone demo account.',
+              style: TextStyle(color: SafeZoneColors.muted)),
           const SizedBox(height: 24),
-          TextField(controller: _email, decoration: const InputDecoration(labelText: 'Email or phone', prefixIcon: Icon(Icons.mail_rounded))),
+          TextField(
+              controller: _email,
+              decoration: const InputDecoration(
+                  labelText: 'Email or phone',
+                  prefixIcon: Icon(Icons.mail_rounded))),
           const SizedBox(height: 12),
-          TextField(controller: _password, obscureText: true, decoration: const InputDecoration(labelText: 'Password', prefixIcon: Icon(Icons.lock_rounded))),
+          TextField(
+              controller: _password,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  labelText: 'Password', prefixIcon: Icon(Icons.lock_rounded))),
           if (auth.error != null) ...[
             const SizedBox(height: 12),
-            Text(auth.error!, style: const TextStyle(color: SafeZoneColors.danger)),
+            Text(auth.error!,
+                style: const TextStyle(color: SafeZoneColors.danger)),
           ],
           const SizedBox(height: 18),
           CyberButton(
             label: auth.loading ? 'Signing In' : 'Sign In',
             icon: Icons.login_rounded,
             expanded: true,
-            onPressed: auth.loading ? null : () => ref.read(authControllerProvider.notifier).login(_email.text, _password.text),
+            onPressed: auth.loading
+                ? null
+                : () => ref
+                    .read(authControllerProvider.notifier)
+                    .login(_email.text, _password.text),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              TextButton(onPressed: () => context.go('/forgot'), child: const Text('Forgot password')),
+              TextButton(
+                  onPressed: () => context.go('/forgot'),
+                  child: const Text('Forgot password')),
               const Spacer(),
-              TextButton(onPressed: () => context.go('/register'), child: const Text('Create account')),
+              TextButton(
+                  onPressed: () => context.go('/register'),
+                  child: const Text('Create account')),
             ],
           ),
         ],
@@ -122,26 +149,43 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('JOIN SAFEZONE', style: Theme.of(context).textTheme.headlineLarge),
+          Text('JOIN SAFEZONE',
+              style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 18),
-          TextField(controller: _name, decoration: const InputDecoration(labelText: 'Full name', prefixIcon: Icon(Icons.person_rounded))),
+          TextField(
+              controller: _name,
+              decoration: const InputDecoration(
+                  labelText: 'Full name',
+                  prefixIcon: Icon(Icons.person_rounded))),
           const SizedBox(height: 12),
-          TextField(controller: _email, decoration: const InputDecoration(labelText: 'Email', prefixIcon: Icon(Icons.mail_rounded))),
+          TextField(
+              controller: _email,
+              decoration: const InputDecoration(
+                  labelText: 'Email', prefixIcon: Icon(Icons.mail_rounded))),
           const SizedBox(height: 12),
-          TextField(controller: _password, obscureText: true, decoration: const InputDecoration(labelText: 'Password', prefixIcon: Icon(Icons.lock_rounded))),
+          TextField(
+              controller: _password,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  labelText: 'Password', prefixIcon: Icon(Icons.lock_rounded))),
           if (auth.error != null) ...[
             const SizedBox(height: 12),
-            Text(auth.error!, style: const TextStyle(color: SafeZoneColors.danger)),
+            Text(auth.error!,
+                style: const TextStyle(color: SafeZoneColors.danger)),
           ],
           const SizedBox(height: 18),
           CyberButton(
             label: 'Create Account',
             icon: Icons.person_add_rounded,
             expanded: true,
-            onPressed: () => ref.read(authControllerProvider.notifier).register(_name.text, _email.text, _password.text),
+            onPressed: () => ref
+                .read(authControllerProvider.notifier)
+                .register(_name.text, _email.text, _password.text),
           ),
           const SizedBox(height: 12),
-          TextButton(onPressed: () => context.go('/login'), child: const Text('Already have an account? Sign in')),
+          TextButton(
+              onPressed: () => context.go('/login'),
+              child: const Text('Already have an account? Sign in')),
         ],
       ),
     );
@@ -159,18 +203,25 @@ class ForgotPasswordScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('RESET ACCESS', style: Theme.of(context).textTheme.headlineLarge),
+          Text('RESET ACCESS',
+              style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 12),
-          const Text('Enter your email and SafeZone will send recovery instructions.', style: TextStyle(color: SafeZoneColors.muted)),
+          const Text(
+              'Enter your email and SafeZone will send recovery instructions.',
+              style: TextStyle(color: SafeZoneColors.muted)),
           const SizedBox(height: 18),
-          TextField(controller: controller, decoration: const InputDecoration(labelText: 'Email', prefixIcon: Icon(Icons.mail_rounded))),
+          TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                  labelText: 'Email', prefixIcon: Icon(Icons.mail_rounded))),
           const SizedBox(height: 18),
           CyberButton(
             label: 'Send Reset Link',
             icon: Icons.send_rounded,
             expanded: true,
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Recovery link queued in demo mode.')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Recovery link queued in demo mode.')));
               context.go('/login');
             },
           ),
@@ -223,8 +274,10 @@ class _AuthScanPainter extends CustomPainter {
     for (double y = 40; y < size.height; y += 96) {
       canvas.drawLine(Offset(0, y), Offset(size.width, y + 60), cyan);
     }
-    canvas.drawLine(Offset(size.width * .58, 0), Offset(size.width, size.height * .32), red);
-    canvas.drawLine(Offset(0, size.height * .78), Offset(size.width * .42, size.height), red);
+    canvas.drawLine(Offset(size.width * .58, 0),
+        Offset(size.width, size.height * .32), red);
+    canvas.drawLine(Offset(0, size.height * .78),
+        Offset(size.width * .42, size.height), red);
   }
 
   @override

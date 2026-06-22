@@ -24,4 +24,3 @@ void main() {
     expect(presentation.tone, StatusTone.muted);
   });
 }
-

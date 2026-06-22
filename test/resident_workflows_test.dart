@@ -23,10 +23,10 @@ void main() {
     final repo = DemoSafeZoneRepository();
     await repo.login('resident@safezone.local', 'password123');
 
-    await repo.createSos(EmergencyType.fireBrigade, 33.6844, 73.0479, 'Sector 4');
+    await repo.createSos(
+        EmergencyType.fireBrigade, 33.6844, 73.0479, 'Sector 4');
 
     expect((await repo.sosLogs()).first.type, EmergencyType.fireBrigade);
     expect((await repo.incidents()).first.severity, SeverityLevel.critical);
   });
 }
-

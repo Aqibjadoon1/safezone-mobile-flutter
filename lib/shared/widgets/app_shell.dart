@@ -24,7 +24,9 @@ class SafeZoneShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final destinations = role == UserRole.resident ? _residentDestinations : _authorityDestinations;
+    final destinations = role == UserRole.resident
+        ? _residentDestinations
+        : _authorityDestinations;
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -32,7 +34,8 @@ class SafeZoneShell extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title, style: Theme.of(context).textTheme.titleLarge),
-            Text('SAFEZONE COMMAND LINK', style: Theme.of(context).textTheme.labelSmall),
+            Text('SAFEZONE COMMAND LINK',
+                style: Theme.of(context).textTheme.labelSmall),
           ],
         ),
         actions: [
@@ -62,7 +65,8 @@ class SafeZoneShell extends ConsumerWidget {
         indicatorColor: SafeZoneColors.safe.withOpacity(.16),
         destinations: [
           for (final destination in destinations)
-            NavigationDestination(icon: Icon(destination.icon), label: destination.label),
+            NavigationDestination(
+                icon: Icon(destination.icon), label: destination.label),
         ],
         onDestinationSelected: (index) => context.go(destinations[index].path),
       ),
@@ -93,4 +97,3 @@ const _authorityDestinations = [
   _Destination('SOS', Icons.sensors_rounded, '/authority/sos'),
   _Destination('Users', Icons.group_rounded, '/authority/users'),
 ];
-

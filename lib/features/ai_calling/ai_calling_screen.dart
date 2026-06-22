@@ -18,16 +18,22 @@ class AiCallingScreen extends StatelessWidget {
       role: UserRole.authority,
       child: ListView(
         children: [
-          Text('AI EMERGENCY CALLING', style: Theme.of(context).textTheme.headlineLarge),
+          Text('AI EMERGENCY CALLING',
+              style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 16),
           GlassCard(
             borderColor: SafeZoneColors.cyan.withOpacity(.3),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.record_voice_over_rounded, color: SafeZoneColors.cyan, size: 42),
+                const Icon(Icons.record_voice_over_rounded,
+                    color: SafeZoneColors.cyan, size: 42),
                 const SizedBox(height: 16),
-                Text(kIsWeb ? 'ElevenLabs ConvAI Web Support' : 'Native Mobile Voice Assistant', style: Theme.of(context).textTheme.titleLarge),
+                Text(
+                    kIsWeb
+                        ? 'ElevenLabs ConvAI Web Support'
+                        : 'Native Mobile Voice Assistant',
+                    style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 10),
                 const Text(
                   'Agent ID: agent_8801kttn6txrem1v8gjy9m0g92w2\nWebhook: POST /api/ElevenLabsWebhook\nThe voice agent can create incidents with category, description, address, latitude, longitude, severity, and anonymous reporting state.',
@@ -38,7 +44,10 @@ class AiCallingScreen extends StatelessWidget {
                   label: kIsWeb ? 'Open Web Agent' : 'View Native Fallback',
                   icon: Icons.phone_in_talk_rounded,
                   onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(kIsWeb ? 'Embed the ConvAI widget in Flutter Web host page.' : 'Use WebView or backend call orchestration on native mobile.')),
+                    SnackBar(
+                        content: Text(kIsWeb
+                            ? 'Embed the ConvAI widget in Flutter Web host page.'
+                            : 'Use WebView or backend call orchestration on native mobile.')),
                   ),
                 ),
               ],
@@ -49,4 +58,3 @@ class AiCallingScreen extends StatelessWidget {
     );
   }
 }
-

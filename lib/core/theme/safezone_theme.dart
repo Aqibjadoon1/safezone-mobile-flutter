@@ -47,7 +47,7 @@ class SafeZoneTheme {
         elevation: 0,
         centerTitle: false,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: SafeZoneColors.panel,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -71,4 +71,3 @@ class SafeZoneTheme {
     );
   }
 }
-

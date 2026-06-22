@@ -16,11 +16,13 @@ class ApiClient {
   String friendlyError(Object error) {
     if (error is DioException) {
       final data = error.response?.data;
-      if (data is Map && data['message'] is String) return data['message'] as String;
-      if (error.type == DioExceptionType.connectionTimeout) return 'SafeZone command server timed out.';
-      if (error.type == DioExceptionType.connectionError) return 'Cannot reach SafeZone command server.';
+      if (data is Map && data['message'] is String)
+        return data['message'] as String;
+      if (error.type == DioExceptionType.connectionTimeout)
+        return 'SafeZone command server timed out.';
+      if (error.type == DioExceptionType.connectionError)
+        return 'Cannot reach SafeZone command server.';
     }
     return 'Something went wrong. Please try again.';
   }
 }
-

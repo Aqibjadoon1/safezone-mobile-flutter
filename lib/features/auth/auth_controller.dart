@@ -38,20 +38,25 @@ class AuthController extends StateNotifier<AuthState> {
   Future<void> login(String email, String password) async {
     state = state.copyWith(loading: true, clearError: true);
     try {
-      final user = await _ref.read(repositoryProvider).login(email.trim(), password);
+      final user =
+          await _ref.read(repositoryProvider).login(email.trim(), password);
       state = AuthState(user: user);
     } catch (error) {
-      state = AuthState(error: error.toString().replaceFirst('Bad state: ', ''));
+      state =
+          AuthState(error: error.toString().replaceFirst('Bad state: ', ''));
     }
   }
 
   Future<void> register(String name, String email, String password) async {
     state = state.copyWith(loading: true, clearError: true);
     try {
-      final user = await _ref.read(repositoryProvider).register(name.trim(), email.trim(), password);
+      final user = await _ref
+          .read(repositoryProvider)
+          .register(name.trim(), email.trim(), password);
       state = AuthState(user: user);
     } catch (error) {
-      state = AuthState(error: error.toString().replaceFirst('Bad state: ', ''));
+      state =
+          AuthState(error: error.toString().replaceFirst('Bad state: ', ''));
     }
   }
 
@@ -61,7 +66,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 }
 
-final authControllerProvider = StateNotifierProvider<AuthController, AuthState>((ref) {
+final authControllerProvider =
+    StateNotifierProvider<AuthController, AuthState>((ref) {
   return AuthController(ref);
 });
-

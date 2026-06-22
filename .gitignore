@@ -1,0 +1,22 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Local config
+.env
+local.properties
+
+# Platform generated files can be recreated by flutter create when needed.
+android/.gradle/
+ios/Pods/
+macos/Pods/
+
